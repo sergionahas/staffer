@@ -8,13 +8,14 @@
   },
   "files": [
     "bin",
+    "lib",
     "src",
     "templates",
     "README.md",
     "LICENSE"
   ],
   "engines": {
-    "node": ">=18"
+    "node": ">=20.12"
   },
   "scripts": {
     "test": "sh test/smoke.sh"
@@ -39,5 +40,8 @@
     "staffer"
   ],
   "author": "Sergio Nahas",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@clack/prompts": "1.8.1"
+  }
 }

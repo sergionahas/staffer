@@ -50,13 +50,13 @@ You talk to a single **PM** session. It never does the work itself. For each tic
 
 - macOS with [cmux](https://cmux.dev) (the CLI is found at `/Applications/cmux.app/Contents/Resources/bin/cmux`; change `cmuxBin` in the config if yours is elsewhere)
 - [Claude Code](https://claude.com/claude-code), logged in with a Claude subscription (the usage bars need it)
-- Node.js 18 or newer
+- Node.js 20.12 or newer
 - [GitHub CLI](https://cli.github.com) (`gh`), logged in, for the open-PRs list and for workers opening PRs
 - `python3` (used by the layout script; macOS has it)
 
 ## Setup
 
-Run this from a cmux terminal, in the folder where your project's repos live:
+Run this from a cmux terminal:
 
 ```bash
 npx staffer init
@@ -68,14 +68,25 @@ or straight from GitHub, `npx github:sergionahas/staffer init`, or from a clone:
 git clone https://github.com/sergionahas/staffer.git && ./staffer/install.sh
 ```
 
-It asks a few questions (project name, repos to watch, ticket prefix, where tickets live), then:
+It lists the projects it finds and you pick one with the arrow keys (or type to filter):
+
+```
+◆  Which project?
+│  ● goliath        ~/goliath · 10 repos · 2h ago
+│  ○ trackora       ~/trackora · you/trackora · 3d ago
+│  ○ + Other folder…
+```
+
+A project is a folder that is a git repo or holds git repos one level down. By default it looks at the folders in `~`; set other places with `--roots ~/code,~/work` or `STAFFER_ROOTS`. Projects already set up come first, marked `✓ staffer`, then the most recently touched.
+
+Then it fills in what it can detect and asks you to confirm: the GitHub repos to watch (all checked), where tickets live, the ticket prefix (guessed from branch names like `abc-123-…`), what the PM calls you (from your GitHub name), and whether to open the PM in a new cmux workspace, this one, or not now. Then it:
 
 1. copies the tooling into a PM directory (default `<workdir>/.staffer/`),
 2. writes `staffer.config.json` and `worker-rules.md` there,
 3. installs the PM skill as `~/.claude/skills/<project>-pm/SKILL.md`, filled in from the config,
-4. turns the current cmux workspace into the PM workspace (overview left, PM right).
+4. opens the PM workspace in cmux (overview left, PM right), where you chose.
 
-Every question has a flag, so it can run unattended:
+Every question has a flag, and a flag skips its question. With `--yes` (or without a terminal) nothing is asked: it uses the flags, an existing config and defaults, in the current folder, and builds the layout in the current workspace, as before:
 
 ```bash
 npx staffer init --yes --workdir ~/acme --project Acme \
