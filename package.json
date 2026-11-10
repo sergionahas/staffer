@@ -1,6 +1,6 @@
 {
   "name": "staffer",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A chief of staff for Claude Code: a project-manager Claude Code session that starts, watches and closes parallel worker sessions in cmux.",
   "type": "module",
   "bin": {
